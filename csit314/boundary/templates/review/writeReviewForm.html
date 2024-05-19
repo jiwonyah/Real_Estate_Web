@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form id="write-review-form" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.agent_id }}
+    <div>
+        <h2>
+            {{ user.firstName }} {{ user.lastName }}
+        </h2>
+        <p class="small-text">Please leave rating by clicking the star</p>
+        <div class="stars">
+            <span class="star" data-rating="1">&#9733;</span>
+            <span class="star" data-rating="2">&#9733;</span>
+            <span class="star" data-rating="3">&#9733;</span>
+            <span class="star" data-rating="4">&#9733;</span>
+            <span class="star" data-rating="5">&#9733;</span>
+            <input type="hidden" name="rating" id="rating" value="0">
+        </div>
+    </div>
+    <div>
+        {{ form.content.label }}
+        {{ form.content }}
+    </div>
+    {{ form.submit }}
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const stars = document.querySelectorAll(".star");
+    const ratingInput = document.getElementById("rating");
+    const feedbackTextarea = document.getElementById("content");
+    const submitBtn = document.querySelector("input[type='submit']");
+    const csrfToken = document.querySelector("input[name='csrf_token']").value;
+    const agentId = '{{ agent_id }}';
+    let rating = 0;
+
+    // Highlight stars up to the selected one by user
+    function highlightStars(index) {
+        stars.forEach((star, i) => {
+            star.classList.toggle("active", i < index);
+        });
+    }
+
+    // Add click event listener to stars
+    stars.forEach(star => {
+        star.addEventListener("click", function() {
+            rating = parseInt(this.getAttribute("data-rating"));
+            ratingInput.value = rating;
+            highlightStars(rating);
+        });
+    });
+
+    // Submit button click event
+    submitBtn.addEventListener("click", async function(event) {
+        event.preventDefault();
+
+        const formData = {
+            'rating': ratingInput.value,
+            'content': feedbackTextarea.value,
+            'agent_id': agentId,
+            'csrf_token': csrfToken
+        };
+
+        const response = await fetch(`/write-review/${agentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            alert(data.message);
+            window.location.href = `/agents`;
+        } else {
+            alert('Failed to submit review: ' + data.error);
+        }
+    });
+});
+</script>
+{% endblock %}
+

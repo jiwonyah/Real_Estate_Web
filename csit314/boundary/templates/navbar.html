@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Navigation bar</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+	</head>
+
+	<body>
+		<nav class = "navbar">
+			<div class="navbar__logo">
+				<i class="fas fa-blog"></i>
+				<a href="{{ url_for('index') }}">MINYONG</a>
+			</div>
+			<ul class="navbar__menu">
+				<li><a href="{{ url_for('index') }}">Home</a></li>
+				<li><a onclick="window.location.href = '/propertyListing/'">Property Listing</a></li>
+
+				<li><a onclick="window.location.href = '/agents'">Agent Review</a></li>
+
+				{% if g.user and g.user.role == "buyer" %}
+				<li><a onclick="window.location.href = '/mortgage'">Mortgage</a></li>  <!--page has not been created-->
+				{% endif %}
+
+				{% if g.user%}
+				<li class="dropdown">
+					<a href="#">My Page</a>
+					<div class="dropdown-content">
+						<!-- 1 -->
+						<a href="{{ url_for('profile.profile', userid=g.user.userid) }}">My Info</a>
+						<!-- 2 -->
+						{% if g.user.role == "agent"  %}
+						<a onclick="window.location.href = '/agent/my_property_listing/'">Post History</a>
+						<a href="{{ url_for('view_review_controller.agentViewReviews_index')}}">Reviews</a>
+						{% elif g.user.role == "seller" %}
+						<a onclick="window.location.href = '/seller/my_property_listing/'">My Property</a>
+						{% elif g.user.role == "buyer" %}
+						<a href="{{ url_for('view_saved_favourite_controller.view_my_favourites_index')}}">Shortlist</a>
+						{% endif %}
+						<a id="logoutButton">Logout</a>
+					</div>
+				</li>
+
+				{% else %}
+				<li class="dropdown">
+					<a href="#" >Login</a>
+					<div class="dropdown-content">
+						<a onclick="window.location.href = '/login/'">Login</a>
+						<a onclick="window.location.href = '/signup/'">Signup</a>
+					</div>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
+	</body>
+	<script>
+		function logout() {
+			fetch('/logout/', {
+				method: 'POST',
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						alert(data.message);
+						window.location.href = '/';
+					} else {
+						alert('Failed to logout: ' + data.message);
+					}
+				})
+				.catch(error => {
+					console.error('Logout error:', error);
+					alert('An error occurred during logout.');
+				});
+		}
+		document.addEventListener("DOMContentLoaded", function() {
+			const logoutButton = document.getElementById("logoutButton");
+			if (logoutButton) {
+				logoutButton.addEventListener("click", function() {
+					logout();
+				});
+			}
+		});
+	</script>
+</html>
+
+
+

@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  textarea {
+    width: 100%;
+    height: 6.25em;
+    resize: none;
+  }
+
+  /* 전체 폼 스타일 */
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 입력 필드 스타일 */
+  input[type="text"], input[type="number"], textarea, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+
+
+  /* 에러 메시지 스타일 */
+  #formError {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+</style>
+
+<div>
+  <h1>Register Property Listing</h1>
+  <form id="createPropertyForm" method="POST" action="/propertyListing/create/" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+
+    <div>
+      <label for="subject">Subject*</label>
+      <input type="text" id="subject" name="subject" required>
+    </div>
+    <br><br>
+    <div>
+      <label for="images">Upload Images</label>
+      <input type="file" name="images" id="images" multiple onchange="previewImages(event)">
+    </div>
+    <div id="preview-container"></div>
+    <br><br>
+    <div>
+      <label for="content">Property Listing Description</label>
+      <textarea name="content" id="content" rows="10"></textarea>
+    </div>
+    <br><br>
+    <div>
+      <label for="price">Price*</label>
+      <input type="number" name="price" id="price" required>
+    </div>
+    <br><br>
+    <div>
+      <label for="address">Address*</label>
+      <input type="text" name="address" id="address" required>
+    </div>
+    <br><br>
+    <div>
+      <label for="floorSize">Floor Size*</label>
+      <input type="number" name="floorSize" id="floorSize" required>
+    </div>
+    <br><br>
+    <div>
+      <label for="floorLevel">Floor Level*</label>
+      <select name="floorLevel" id="floorLevel" required>
+        {% for value, label in form.floorLevel.choices %}
+        <option value="{{ value }}" {% if form.floorLevel.data == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br><br>
+    <div>
+      <label for="propertyType">Property type*</label>
+      <select name="propertyType" id="propertyType" required>
+        {% for value, label in form.propertyType.choices %}
+        <option value="{{ value }}" {% if form.propertyType.data == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br><br>
+    <div class="mb-3">
+      <label for="furnishing">Furnishing*</label>
+      <select name="furnishing" id="furnishing" required>
+        {% for value, label in form.furnishing.choices %}
+        <option value="{{ value }}" {% if form.furnishing.data == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <br><br>
+    <div>
+      <label for="builtYear">Built year*</label>
+      <input type="number" name="builtYear" id="builtYear" required>
+    </div>
+    <br><br>
+    <div>
+      <label for="client_id">Client*</label>
+      <input type="text" name="client_id" id="client_id" required>
+      <div id="formError" style="color: red; display: none;"></div>
+    </div>
+    <br><br>
+
+      <button>Submit</button>
+
+  </form>
+</div>
+    <script>
+        document.getElementById('images').addEventListener('change', handleImageSelection);
+
+        function handleImageSelection(event) {
+            const files = event.target.files;
+            const previewContainer = document.getElementById('preview-container');
+
+            // Loop through each selected file
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                // Closure to capture the file information
+                reader.onload = function(e) {
+                    // Create a new image container for each selected file
+                    const imgElement = document.createElement('div');
+                    imgElement.classList.add('preview-image-container');
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('preview-image');
+                    img.style.maxWidth = '550px'; // Set maximum width for preview
+                    img.style.height = 'auto'; // Maintain aspect ratio
+
+                    // Create delete button
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.innerHTML = 'X';
+                    deleteBtn.classList.add('delete-button');
+                    deleteBtn.onclick = function() {
+                        // Remove the parent container (preview-image-container) on delete button click
+                        previewContainer.removeChild(imgElement);
+                    };
+
+                    // Append image and delete button to the image container
+                    imgElement.appendChild(img);
+                    imgElement.appendChild(deleteBtn);
+
+                    // Append the new image container to the preview container
+                    previewContainer.appendChild(imgElement);
+                };
+
+                // Read the image file as a data URL
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    <script>
+            document.getElementById('createPropertyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const response = await fetch('/propertyListing/create/', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert(data.message);
+                window.location.href = '/propertyListing/';
+            } else {
+                alert(data.error);
+                const errorDiv = document.getElementById('formError');
+                errorDiv.textContent = data.error;
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+
+{% endblock %}

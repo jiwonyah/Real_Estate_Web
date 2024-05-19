@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME PAGE</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+        .home-section{
+        position: relative;
+        background-color: var(--color-body);
+        min-height: 100vh;
+        top:0;
+        left:78px;
+        width: calc(100% - 78px);
+        transition: all .5s ease;
+        z-index: 2;
+        }
+
+        .home-section h2{
+        display: inline-block;
+        color:#0067ac;
+        font-family: "Concert One", serif;
+        font-size: 56px;
+        font-weight: 50;
+        margin: 38px;
+        }
+
+        .sidebar.open ~ .home-section{
+        left:250px;
+        width: calc(100% - 250px);
+        }
+
+        .user-content-action-container {
+            display: flex;
+            justify-content: space-between;
+            width: 680px;
+            height:180px;
+            margin-top: 50px;
+           margin-left:550px;
+        }
+
+
+        .user-content-action-container .action {
+            flex: 1;
+            margin-right: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #user-content .action {
+            width: calc(50% - 5px);
+            margin-top: 30px;
+        }
+
+        .user-content-action-container .action:hover {
+            background-color: #f0f0f0;
+        }
+
+        .user-content-action-container .action .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .user-content-action-container .action .text {
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+ {% include "UserAccount/admin_navbar.html" %}
+      <section class="home-section">
+        <h2>User Management</h2>
+        <div class="content">
+            <div id="user-content" >
+                <div class="user-content-action-container">
+                    <div class="action" onclick="window.location.href = '/user_account_dashboard'">
+                        <div class="icon">
+                        <i class="fas fa-user"></i>
+                        </div>
+                        <div class="text">User Account</div>
+                    </div>
+                    <div class="action" onclick="window.location.href = '/user_profile_dashboard'">
+                        <div class="icon">
+                        <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="text" >User Profile</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+</body>
+</html>

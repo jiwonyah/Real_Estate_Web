@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <link href="myStyling.css" rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/a769080b3a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQq7MlhAtt6gK9q3VZDgchRu4/1OgD+qLA5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<div id="propList-container">
+    <div id="propList-header">
+        <h1 class="my-3 border-bottom pb-2" id="propList-title">Old Property Listings</h1>
+        <div class="ordinal_btn" id="propList-viewOldBtnContainer">
+            <a onclick="window.location.href = '/propertyListing/'" id="propList-viewOldBtn">
+                View Property Listings on Sales
+            </a>
+        </div>
+    </div>
+    <div class="search-container" id="propList-searchContainer">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by subject">
+        <button onclick="searchProperty()" class="search-button" id="propList-searchBtn">Search</button>
+    </div>
+    <div>
+        <div id="propList-table">
+            <div id="propList-tbody">
+                <!-- Content will be dynamically added here -->
+            </div>
+            <div class="tr" id="propList-noMatchRow" style="display: none;">
+                <div class="td" colspan="4" id="propList-noMatch"><b>No matching properties found.</b></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/api/oldPropertyListing', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('propList-tbody');
+        if (data.old_property_listings && data.old_property_listings.length > 0) {
+            const oldPropertyListings = data.old_property_listings;
+            oldPropertyListings.forEach(listing => {
+                const row = document.createElement('div');
+                row.classList.add('tr', 'text-center', 'property-row');
+                row.id = `propList-row-${listing.id}`;
+                row.innerHTML = `
+                    <div class="td property-link" id="propList-subject">
+                        <a onclick="window.location.href = '/propertyListing/detail/${listing.id}'">
+                            ${listing.subject}
+                        </a>
+                    </div>
+                    <div class="td" id="propList-address"><b>Address</b>: ${listing.address}</div>
+                    <div class="td" id="propList-price"><b>Price</b>: $${listing.price}</div>
+                    <div class="td" id="propList-type"><b>Type</b>: ${listing.propertyType}</div>
+                    <div class="divider"></div>
+                    <div class="info-container">
+                        <div class="td" id="propList-agent-${listing.id}">Listed by ${listing.agent_id}</div>
+                        <div class="td" id="propList-${listing.modify_date ? 'modifyDate' : 'createDate'}-${listing.id}">
+                            ${listing.modify_date ? listing.modify_date : listing.create_date}
+                        </div>
+                    </div>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            const noContentsRow = document.createElement('div');
+            noContentsRow.classList.add('tr');
+            noContentsRow.innerHTML = '<div class="td" colspan="4">No contents</div>';
+            tableBody.appendChild(noContentsRow);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+function searchProperty() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toUpperCase();
+    const rows = document.querySelectorAll(".tr");
+
+    let hasResults = false;
+
+    rows.forEach(row => {
+        const subjectElement = row.querySelector("#propList-subject a");
+        if (subjectElement) {
+            const subject = subjectElement.innerText;
+            if (subject.toUpperCase().indexOf(filter) > -1) {
+                row.style.display = "";
+                hasResults = true;
+            } else {
+                row.style.display = "none";
+            }
+        }
+    });
+
+    const noContentRow = document.getElementById("propList-noContentRow");
+    const noMatchRow = document.getElementById("propList-noMatchRow");
+
+    if (noContentRow) {
+        noContentRow.style.display = hasResults ? "none" : "none";
+    }
+    if (noMatchRow) {
+        noMatchRow.style.display = hasResults ? "none" : "";
+    }
+}
+</script>
+
+<style>
+  /* Add this CSS to your stylesheet or within a <style> tag */
+#propList-table {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.tr.property-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px; /* Fixed width */
+    height: 150px; /* Fixed height */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.tr.property-row .td {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.tr.property-row .property-link {
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.tr.property-row .property-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 10px 0;
+}
+
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.9em;
+    color: #555;
+}
+
+</style>
+
+{% endblock %}

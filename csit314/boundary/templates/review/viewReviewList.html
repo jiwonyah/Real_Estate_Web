@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="reviews-on-me-page">
+    <h1>Reviews On Me</h1>
+    <p class="small-text">Click Review ID to see the rating and content</p>
+    <table id="reviewTable">
+        <thead id="reviewListTableHead">
+            <tr>
+                <th>Review ID</th>
+                <th>Author</th>
+                <th>Written on</th>
+            </tr>
+        </thead>
+        <tbody id="reviewListTableBody">
+            {% for review in reviews %}
+            <tr id="reviewListTableRow">
+                <td><a href="{{ url_for('view_review_controller.review_detail_index', review_id=review.id) }}">
+                    {{ review.id }}</a></td>
+                <td id="reviewAuthorName">{{ review.author_name }}</td>
+                <td id="reviewWrittenDate">{{ review.create_date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+window.onload = function() {
+    fetch('/api/agent/reviews/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.getElementById('reviewListTableBody');
+        if (data.reviews && data.reviews.length > 0) {
+            const reviews = data.reviews;
+
+            reviews.forEach(review => {
+                let row = `<tr>
+                    <td>
+                        <a href="/agent/reviewDetail/${review.id}">
+                            ${review.id}
+                        </a>
+                    </td>
+                    <td>${review.author_name}</td>
+                    <td>${review.create_date}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        } else {
+            tableBody.innerHTML = `<tr>
+                <td colspan="3">No rating and reviews on you yet.</td>
+            </tr>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to load reviews');
+    });
+};
+</script>
+{% endblock %}

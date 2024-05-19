@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Main contents below -->
+<body>
+<div class="header d-flex align-items-center" style="background: #f5f5f5;">
+    <div class="carousel-container">
+        <section aria-label="Photos">
+            <div class="carousel" data-carousel>
+                <ul data-slides>
+                    <li class="slide" data-active>
+                        <img src="{{url_for('static', filename='images/main_house.jpg')}}" class="carousel-image">
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <div class="text-container">
+        <h1 class="carousel-heading">Find A <span class="color-text">Perfect Home</span> To Live With Your Family</h1>
+        <p class="quote">Home is where love resides, memories are created, <br>friends always belong, and laughter never ends</p>
+    </div>
+</div>
+</body>
+<style>
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+    width: 100%;
+}
+
+.carousel-container {
+    flex: 1;
+    text-align: center;
+    margin-top: 80px; /* Add margin-top to move the image down */
+}
+
+.carousel-image {
+    width: 100%;
+    height: auto;
+    max-width: 600px; /* Increased max-width for larger image */
+    display: block;
+    margin: 0 auto;
+
+}
+
+.text-container {
+    flex: 1;
+    padding-right: 50px; /* Adjusted padding-right */
+    color: #263343;
+}
+
+
+.carousel-heading {
+    font-size: 2.5em;
+    color: #263343;
+    margin-bottom: 20px;
+}
+
+.color-text {
+    color: #263343;
+}
+
+.quote {
+    font-size: 1.2em;
+    color: #263343;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="reviewDetail">
+    <h1>Review Detail</h1>
+    <div id="error"></div>
+    <div id="reviewContentBox">
+        <div class="review-item">
+            <strong>Review ID:</strong> {{ review.id }}
+        </div>
+        <div class="review-item">
+            <strong>Author:</strong> {{ review.author_name }}
+        </div>
+        <div class="review-item">
+            <strong>Rating:</strong> {{ review.rating }}
+        </div>
+        <div class="review-item">
+            <strong>Content:</strong> {{ review.content }}
+        </div>
+        <div class="divider"></div>
+        <div class="review-item date">
+            <strong>Written on:</strong> {{ review.create_date.strftime('%Y-%m-%d') }}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Request detailed information of the current review asynchronously
+    fetch('/api/agent/reviewDetail/{{review.id}}')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            document.getElementById('error').innerHTML = `<p>${data.error}</p>`;
+        } else { // If response is successfully received from the server, dynamically update the page content using response data (JSON object)
+            document.getElementById('reviewContentBox').innerHTML = `
+                <div class="review-item">
+                    <strong>ID:</strong> ${data.id}
+                </div>
+                <div class="review-item">
+                    <strong>Author:</strong> ${data.author_name}
+                </div>
+                <div class="review-item">
+                    <strong>Rating:</strong> ${data.rating}
+                </div>
+                <div class="review-item">
+                    <strong>Content:</strong> ${data.content}
+                </div>
+                <div class="divider"></div>
+                <div class="review-item date">
+                    <strong>Written on:</strong> ${new Date(data.create_date).toISOString().slice(0, 10)}
+                </div>
+            `;
+        }
+    })
+    .catch(error => { // Display an error message on the page to notify the user if the network response fails or the server sends an error message
+        document.getElementById('error').innerHTML = `<p>There was a problem with your fetch operation: ${error.message}</p>`;
+    });
+</script>
+{% endblock %}

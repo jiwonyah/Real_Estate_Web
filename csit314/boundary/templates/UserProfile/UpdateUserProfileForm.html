@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Update User Profile Form</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+        .home-section{
+        position: relative;
+        background-color: var(--color-body);
+        min-height: 100vh;
+        top:0;
+        left:78px;
+        width: calc(100% - 78px);
+        transition: all .5s ease;
+        z-index: 2;
+        }
+
+        .home-section h2{
+        display: inline-block;
+        color:#0067ac;
+        font-family: "Concert One", serif;
+        font-size: 56px;
+        font-weight: 50;
+        margin: 38px;
+         text-align: center;
+        margin-bottom: 20px;
+        }
+
+        .sidebar.open ~ .home-section{
+        left:250px;
+        width: calc(100% - 250px);
+        }
+
+
+        .container {
+            width: 500px;
+            margin-left:570px;
+            position: absolute;
+            top: 50px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        .form-group {
+            margin-bottom: 20px;
+            width:100%;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+        width: calc(100% - 20px);
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        }
+
+        .btn[type="submit"]
+            {
+            width: 48%;
+            background-color: #9dc5dc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        .btn[type="button"] {
+            width: 48%;
+            background-color: #b7babb;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        .btn:hover,.btn-secondary:hover {
+            background-color: #0056b3;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+ {% include "UserAccount/admin_navbar.html" %}
+    <section class="home-section">
+    <div class="container">
+        <h2>User Profile Update</h2>
+        <form action="/update_user_profile/{{ profile.profileName }}" method="POST" id="updateProfileForm"
+              data-profileName="{{ profile.profileName }}">
+            <div class="form-group">
+                <label for="profileName">Role Name:</label>
+                <input type="text" id="profileName" name="profileName" value="{{ profile.profileName }}" required>
+            </div>
+             <div class="form-group">
+                <label for="profileDescription">Profile Description:</label>
+                <textarea id="profileDescription" name="profileDescription" required>{{ profile.profileDescription }}</textarea>
+            </div>
+            {% if profile.status == 'Suspended' %}
+            <div>
+                <label for="suspended" style="margin-left: 150px;">Unsuspend:</label> <!-- Added margin-left for spacing -->
+                <input type="checkbox" id="suspended" name="suspended"
+                style="width: 20px; height: 20px">
+            </div>
+            {% endif %}
+            <br><br>
+            <span></span>
+            <div class="form-group">
+                <button type="submit" class="btn">Update</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href = '/user_profile_dashboard'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+    <script>
+        document.getElementById('updateProfileForm').addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const profileName = e.target.getAttribute('data-profileName')
+            const url = '/update_user_profile/' + profileName;
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if(data.success){
+                alert(data.message);
+                window.location.href='/user_profile_dashboard';
+            } else {
+                alert(data.error);
+            }
+        });
+
+    </script>
+</body>
+</html>

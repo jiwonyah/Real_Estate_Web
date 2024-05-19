@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .content {
+    padding: 10px;
+    margin-top: 70px; /* 네비게이션 바의 높이와 패딩을 고려한 여백 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    }
+</style>
+
+    <div class = "content">
+        <div class="profile-container">
+            <h1>{{ user.userid }}'s Profile</h1>
+            <h2>Email: <span class="email">{{ user.email }}</span></h2>
+            <h2>Role: <span class="role">{{ user.role }}</span></h2>
+            <h2>Role: <span class="role">{{ user.firstName}} {{ user.lastName }}</span></h2>
+        </div>
+    </div>
+{% endblock %}

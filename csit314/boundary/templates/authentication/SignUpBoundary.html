@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>User Sign Up</h1>
+    <form id="signupForm" method="POST" action="/signup/">
+        {{ form.csrf_token }}
+        <div id="formError" style="color: red; display: none;"></div>
+
+        <label>Username:</label>
+        <input type="text" name="userid" required><br><br>
+
+        <label>Password:</label>
+        <input type="password" name="password" required><br><br>
+
+        <label>Confirm Password:</label>
+        <input type="password" name="password2" required><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required><br><br>
+
+        <label>First Name:</label>
+        <input type="text" name="firstName" required><br><br>
+
+        <label>Last Name:</label>
+        <input type="text" name="lastName" required><br><br>
+
+        <label>Role:</label>
+        <select name="role" required>
+            <option value="seller">Seller</option>
+            <option value="buyer">Buyer</option>
+            <option value="agent">Agent</option>
+        </select><br><br>
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const response = await fetch('/signup/', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert(data.message);
+                window.location.href = '/';
+            } else {
+                alert(data.error);
+                const errorDiv = document.getElementById('formError');
+                errorDiv.textContent = data.error;
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+{% endblock %}
+

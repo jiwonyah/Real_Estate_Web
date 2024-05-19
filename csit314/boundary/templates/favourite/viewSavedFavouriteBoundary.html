@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="property-listing-container">
+    <h1>Saved Property listings</h1>
+    <table class="property-listing-table">
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="favourite-table-body">
+        </tbody>
+    </table>
+</div>
+
+<script>
+    fetch('/api/shortlisted')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('favourite-table-body');
+            data.forEach(favourite => {
+                const row = document.createElement('tr');
+                row.id = `row-${favourite.id}`;
+
+                const subjectCell = document.createElement('td');
+                const subjectLink = document.createElement('a');
+                subjectLink.href = `/propertyListing/detail/${favourite.id}`;
+                subjectLink.textContent = favourite.subject;
+                subjectLink.className = 'property-listing-subject-link';
+                subjectCell.appendChild(subjectLink);
+
+                const dateCell = document.createElement('td');
+                dateCell.textContent = favourite.create_date;
+
+                const actionCell = document.createElement('td');
+                const favouriteButton = document.createElement('button');
+                favouriteButton.onclick = () => toggleFavourite(this, favourite.id);
+                favouriteButton.className = 'favourite-btn';
+                favouriteButton.id = `favourite-btn-${favourite.id}`;
+                favouriteButton.textContent = 'X';
+                actionCell.appendChild(favouriteButton);
+
+                row.appendChild(subjectCell);
+                row.appendChild(dateCell);
+                row.appendChild(actionCell);
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching favourite listings:', error);
+        });
+
+    function toggleFavourite(btn, propertyListingId) {
+        fetch(`/toggle_favourite/${propertyListingId}`, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // If successfully removed from favourites, remove the corresponding listing from the page
+                var row = document.getElementById(`row-${propertyListingId}`);
+                row.parentNode.removeChild(row);
+                if (document.querySelectorAll('#favourite-table-body tr').length === 0) {
+                    const noDataRow = document.createElement('tr');
+                    const noDataCell = document.createElement('td');
+                    noDataCell.colSpan = 3;
+                    noDataCell.textContent = 'There is no shortlisted property listing.';
+                    noDataCell.style.textAlign = 'center';
+                    noDataRow.appendChild(noDataCell);
+                    document.getElementById('favourite-table-body').appendChild(noDataRow);
+                }
+            } else {
+                // Display error message in case of fail
+                console.error('Failed to remove favorite:', data.error);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+
+</script>
+
+<style>
+    .favourite-btn {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        background-color: #ff0000; /* Red background */
+        color: white;
+        cursor: pointer;
+    }
+    .property-listing-container {
+        padding: 20px;
+        margin: 0 auto;
+        max-width: 800px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top:20px;
+    }
+
+    .property-listing-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .property-listing-table th,
+    .property-listing-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .property-listing-table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .property-listing-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .property-listing-favourite-btn {
+        padding: 8px 12px;
+        border: none;
+        background-color: #ff0000;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+/* New class for subject link */
+.property-listing-subject-link {
+    color: black; /* Change text color to black */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.property-listing-subject-link:hover {
+    color: #333333; /* Slightly darker black on hover */
+}
+</style>
+
+{% endblock %}

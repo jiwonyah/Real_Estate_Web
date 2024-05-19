@@ -1,0 +1,1020 @@
+    .slider {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .slides img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .navigation {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+
+    .prev, .next {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .dots {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .dot {
+        height: 15px;
+        width: 15px;
+        margin: 5px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .active, .dot:hover {
+        background-color: white;
+    }
+
+.input-field {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.input-field.error {
+    border-color: #dc3545;
+}
+
+.input-field.error + .error-message {
+    color: #dc3545;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container #single {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+/* 이미지 칸 스타일 */
+.image-container {
+    margin-bottom: 20px;
+}
+
+.image-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.image-upload {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.form-container .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.form-container .btn {
+    display: inline-block;
+    text-align: center;
+    width: 10%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(45, 48, 87);
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.form-container .btn1 {
+    display: inline-block;
+    text-align: center;
+    width: 10%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(45, 48, 87);
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 200px;
+}
+
+.form-container .btn2 {
+    display: inline-block;
+    text-align: center;
+    width: 10%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(45, 48, 87);
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    bottom: 100px;
+    right: 200px;
+}
+
+.post-list {
+}
+
+.button-container {
+    position: relative;
+}
+
+.btn {
+    position: absolute;
+    bottom: 0;
+
+}
+
+.form-container .btn:hover {
+    background-color: #0056b3;
+}
+
+/* css done by lim yeonjae*/
+
+:root {
+    --accent-color: #orange;
+    --text-color: #f0f4f5;
+    --bodybackground-color: lightgray;
+}
+
+.body {
+    margin: 0;
+    font-family: 'Montserrat';
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+/*--------------------------------------------------------------*/
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #263343;
+    padding: 8px 12px;
+}
+
+.navbar__logo a {
+    color: var(--text-color);
+    padding-left: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar__menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 70px;
+    margin-left: auto;
+}
+
+.navbar__menu li {
+    padding: 8px 60px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*------------------------btn things-----------*/
+.save-button{
+	margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #88a0ba;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*--------------------------------------------------------------*/
+/* Serch Button */
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 570px;
+    /*background-color: #f2f2f2;*/
+    padding: 20px; /* Adjust the padding of background*/
+}
+
+.search-container input {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+    width: 500px;
+    border-radius: 5px;
+}
+
+#search-btn {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #88a0ba;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    cursor: pointer;
+}
+
+#search-btn:hover {
+    background-color: #6f849b;
+}
+
+/*
+.search-container select {
+    background-color: #ffffff;
+    width: 200px;
+    height: 40px;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M3.646 5.646a.5.5 0 0 1 .708 0L8 9.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}*/
+
+/*--------------------------------------------------------------*/
+
+
+
+/*------------------------ Mortgage Calculation Form Stuff ------------------------*/
+
+#calculate-mortgage-page {
+    max-width: 800px; /* 폼 너비 확장 */
+    margin: 50px auto 20px; /* 상단 여백을 늘리고 아래 여백을 줄임 */
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#mortgage_title{text-align: center;}
+#mortgage_calc
+{
+    display: flex;
+    justify-content: center;
+}
+
+#loan_amt,#int_rate,#loan_tenure{
+    width: 750px;
+    height: 35px;
+    border:0;
+    border-radius: 25px;
+    /*font-weight: bold;*/
+    font-size: 25px;
+}
+
+#mortgage_btn
+{
+    padding: 10px 20px;
+    background-color:#3C5087;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+#mortgage_btn:hover
+{
+    background-color:#1E3269;
+}
+
+
+#mort-form
+{
+    border-radius: 25px;
+    background-color:#e3e3e3;
+}
+
+#form-inner
+{
+    padding:20px;
+}
+
+#result
+{
+    font-size: 25px;
+    margin-top: 20px;
+}
+
+/*---------------- Agent List page (agentListPage.html) ------------------*/
+#agent-list-page {
+    max-width: 800px; /* 폼 너비 확장 */
+    margin: 50px auto 20px; /* 상단 여백을 늘리고 아래 여백을 줄임 */
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 에이전트 리스트 테이블 */
+#agentListTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* 에이전트 리스트 테이블 헤더 */
+#agentListHead {
+    background-color: #f0f0f0;
+}
+
+/* 에이전트 리스트 테이블 행 */
+#agentListRow {
+    background-color: #c9c9c9; /* 적용 안됨 */
+    border-radius: 10px; /* 적용 안됨 */
+    border-bottom: 1px solid #ddd; /* 적용 안됨 */
+}
+
+/* 에이전트 리스트 테이블 셀 */
+#agentListTable td {
+    padding: 20px;
+    vertical-align: middle;
+}
+
+/* 에이전트 이름 텍스트 */
+.agentName {
+    font-size: 18px; /* 이름 텍스트 크기 조절 */
+}
+
+.review-button {
+    display: inline-block;
+    background-color: #3C5087; /*#3C5087*/
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline from link */
+    margin-left: 60px; /* 적용 안됨 */
+}
+
+.review-button:hover {
+    background-color: #1E3269; /* Change color on hover */
+}
+
+
+
+/*---------------- Reviews on me (viewReviewList.html) ------------------*/
+#write-review-form {
+    max-width: 800px;
+    margin: 50px auto 20px;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+#write-review-form div {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: #3C5087;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 200px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+button[type="submit"]:hover {
+    background-color: #1E3269;
+}
+
+#write-review-form ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+#write-review-form ul li {
+    margin-right: 10px;
+}
+
+#write-review-form textarea {
+    height: 150px;
+}
+
+br {
+    margin-bottom: 15px;
+}
+
+#write-review-form {
+    padding-top: 60px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#write-review-form p.small-text {
+    font-size: 15px;
+    color: #888;
+}
+
+#write-review-form h2 {
+    margin-bottom: 100px;
+}
+
+#write-review-form p.small-text {
+    margin-top: 70px;
+    margin-bottom: 5px;
+}
+
+#write-review-form div {
+    margin-bottom: 40px;
+}
+
+.star {
+    cursor: pointer;
+    font-size: 25px;
+    color: #c2c2c2;
+}
+
+.star.active {
+    color: gold;
+}
+
+#feedback-heading {
+    font-size: 2em;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    #write-review-form {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/*---------------- Reviews on me (viewReviewList.html) ------------------*/
+#reviews-on-me-page {
+    max-width: 800px;
+    margin: 50px auto 20px;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#reviews-on-me-page p.small-text {
+    font-size: 13px;
+    color: #888;
+}
+
+#reviewTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#reviewListTableHead {
+    background-color: #f0f0f0;
+}
+
+#reviewListTableRow {
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#reviewTable td {
+    padding: 10px;
+    text-align: center;
+}
+
+#reviewAuthorName {
+    font-weight: bold;
+}
+
+#reviewWrittenDate {
+    font-style: italic;
+}
+
+#reviewTable a {
+    text-decoration: none;
+    color: #3C5087;
+}
+
+#reviewTable a:hover {
+    text-decoration: underline;
+    color: #1E3269;
+}
+
+/*---------------- Review Detail Page (reviewDetailPage.html) ------------------*/
+
+#reviewDetail {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#reviewContent {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+#reviewContent p {
+    margin-bottom: 10px;
+}
+
+#reviewContent p:first-child {
+    font-weight: bold;
+}
+
+#reviewContent p:last-child {
+    font-style: italic;
+    color: #888;
+}
+
+#reviewContentBox {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+}
+
+.divider {
+    border-top: 1px solid #ccc;
+    margin-top: 50px;
+    padding-top: 10px;
+}
+
+.review-item {
+    margin-bottom: 25px;
+}
+
+.date {
+    font-style: italic;
+    color: #888;
+}
+
+
+/*----------------------------Property Listing Page-------------------------------*/
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f5f5f5;
+  color: #000;
+}
+#propList-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 50px; /* Added padding on the left and right */
+  width: 100%;
+  box-sizing: border-box;
+}
+#propList-header {
+  position: relative;
+  width: 100%;
+  padding: 0 15px; /* Added padding on the left and right */
+  box-sizing: border-box;
+}
+/* Styling for the property subject link */
+#propList-subject a {
+  font-size: 24px; /* Equivalent to h3 font size */
+  font-weight: bold;
+  color: #263343;
+  text-decoration: none;
+}
+
+#propList-title {
+  margin-bottom: 20px;
+  padding: 0 100px;
+}
+
+#propList-viewOldBtnContainer {
+  position: absolute;
+  margin-right: 100px;
+  right: 0;
+  bottom: -40px; /* Adjust this value to move the button vertically */
+}
+
+#propList-viewOldBtn {
+  background-color: #87ceeb; /* Sky blue background color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px; /* Ensures the button is not too small */
+  text-decoration: none;
+  font-size: 16px; /* Adjust font size if necessary */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#propList-viewOldBtn:hover {
+  background-color: #00bfff; /* Darker sky blue on hover */
+  color: #fff;
+}
+
+#propList-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+#propList-table {
+  display: table;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 100px; /* Added padding on the left and right */
+  box-sizing: border-box;
+}
+
+#propList-tbody {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  gap: 30px; /* Adds space between cards */
+  margin: 30px 0;
+}
+
+/* Each card */
+.tr {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 30px); /* Each card takes up one third of the container width minus the gap */
+  margin: 0; /* Resets margins for individual cards */
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Adjust the width of cards on smaller screens */
+@media (max-width: 768px) {
+  .tr {
+    width: 100%; /* Cards will take full width on smaller screens */
+  }
+}
+
+
+#propList-image img {
+  width: 100%;
+  height: 150px; /* Set the height of the image container */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.td {
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
+  margin-left: 20px;
+}
+
+#propList-subject a {
+  font-weight: bold;
+  color: #263343;
+  text-decoration: none;
+}
+
+#propList-subject a:hover {
+  text-decoration: underline;
+}
+
+#propList-address,
+#propList-price,
+#propList-agent-{{ propertyListing.id }},
+#propList-modifyDate-{{ propertyListing.id }},
+#propList-createDate-{{ propertyListing.id }} {
+  color: #555;
+}
+
+.favourite-btn {
+    background-color: #e49aa7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 8px;
+    /* margin-left: 400px; */ /* 이 부분을 제거하거나 조정하세요 */
+    cursor: pointer;
+    font-size: 24px;
+    transition: background-color 0.3s, color 0.3s;
+    align-self: flex-start; /* 버튼을 카드의 상단에 정렬 */
+}
+
+
+
+.favourite-btn:hover {
+  background-color: #aa737d;
+}
+
+.divider {
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+
+#contactAgentModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.contact-agent {
+  background-color: #263343;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px; /* Favourite 버튼과 동일하게 설정 */
+  cursor: pointer;
+  font-size: 16px; /* Favourite 버튼과 동일하게 설정 */
+}
+
+.contact-agent:hover {
+  background-color: #1f2a35;
+}
+
+/* Container for search bar */
+#propList-searchContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*margin: 100px 0;*/
+  margin-top: 100px;
+  margin-bottom: 40px;
+  padding: 0 15px; /* Added padding on the left and right */
+  box-sizing: border-box;
+}
+
+/* Search input field */
+#propList-searchInput {
+  width: 70%;
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+#propList-searchInput:focus {
+  border-color: #87ceeb; /* Sky blue border on focus */
+  outline: none;
+}
+
+.no-matching {
+    text-align: center;
+    font-size: 18px;
+    display: block; /* Ensures the text takes the full width */
+    margin: 20px 0; /* Adds some space around the text */
+    width: 100%;
+}
+
+/* Search button */
+#propList-searchBtn {
+  background-color: #263343; /* Sky blue background color */
+  color: #fff;
+  border: 2px solid #263343;
+  border-radius: 0 5px 5px 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+#propList-searchBtn:hover {
+  background-color: #00bfff; /* Darker sky blue on hover */
+  border-color: #00bfff;
+}
+
+.ordinal_btn {
+    text-align: right;
+    margin-top: 20px;
+}
+.ordinal_btn {
+    text-align: right;
+    margin-top: 20px;
+    position: fixed;
+    top: 100px; /* Adjust this value to position the button higher or lower */
+    right: 10%; /* Adjust this value to change the horizontal position */
+    z-index: 1000; /* Ensure the button is above other elements */
+}
+
+.ordinal_btn button {
+    background-color: #263343;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for button */
+.ordinal_btn button:hover {
+    background-color: #1d2733;
+}
+
+
+
+/* --------------------profile page -------------------*/
+       .profile-body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .profile-container h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .profile-container .email, .profile-container .role {
+            font-weight: normal;
+            color: #777;
+        }

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <script>
+    function Calculate_Mortgage()
+    {
+        /*Retrieve the values from the textbox*/
+        var loan_amt = parseFloat(document.getElementById('loan_amt').value);
+        var int_rate = parseFloat(document.getElementById('int_rate').value);
+        var loan_tenure = parseFloat(document.getElementById('loan_tenure').value);
+
+        // Check if any input field is empty or not a number
+        if (isNaN(loan_amt) || isNaN(int_rate) || isNaN(loan_tenure))
+        {
+            alert('Please enter valid numbers for all fields.');
+            return;
+        }
+
+        // Check if interest rate is within a reasonable range
+        if (loan_amt < 100000)
+        {
+            alert('Loan Amount must be more than 100,000 SGD!');
+            return;
+        }
+        // Check if interest rate is within a reasonable range
+        if (interestRate < 0.5 || interestRate >= 100)
+        {
+            alert('Please enter a valid interest rate of at least 0.5%!');
+            return;
+        }
+
+        // Check if loan term is a positive integer
+        if (loanTerm < 5)
+        {
+            alert('Please enter a valid loan term of at least 5 years!');
+            return;
+        }
+
+        /* Calculate the Loan Amount, Interest Rate and Loan Term */
+        var loanAmount = loan_amt;
+        var interestRate = int_rate/ 100 / 12;
+        var loanTerm = loan_tenure * 12;
+
+        /* Mortgage is calculated */
+        var mortgage = loanAmount * interestRate * Math.pow(1 + interestRate, loanTerm) / (Math.pow(1 + interestRate, loanTerm) - 1);
+        var resultElement = document.getElementById('result');
+        /* Print the Monthly Mortgage Amount to the HTML Page */
+        if(isNaN(mortgage))
+        {
+            resultElement.innerHTML = "Mortgage Amount: " + 0.00;
+        }
+        else
+        {
+            resultElement.innerHTML = "Mortgage Amount: $" + mortgage.toFixed(2) + " /year";
+        }
+    }
+    </script>
+
+    <div id="calculate-mortgage-page">
+
+        <!-- Mortgage Calculation Form -->
+        <h1 id = "mortgage_title">Mortgage Calculation</h1>
+        <section id = "mortgage_calc" name = "mortgage_calc">
+            <!-- Mortgage Calculation Form -->
+            <div>
+                <br>
+                <div id = "mort-form">
+                    <div id = "form-inner">
+                        <label for = "loan_amt">Enter Loan Amount($): </label><br>
+                        <input type = "text" id = "loan_amt"><br><br>
+                        <label for = "int_rate">Enter Interest Rate(%): </label><br>
+                        <input type = "text" id = "int_rate"><br><br>
+                        <label for = "loan_tenure">Enter Loan Tenure(Years): </label><br>
+                        <input type = "text" id = "loan_tenure">
+                        <br><br>
+                        <button type = "button" onclick = "Calculate_Mortgage()" id = "mortgage_btn">Calculate Mortgage</button>
+                    </div>
+                </div>
+                <br>
+                <div id = "mortgage_amt_display">
+                    <b><div id="result"></div></b>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account Search Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+        .home-section{
+        position: relative;
+        background-color: var(--color-body);
+        min-height: 100vh;
+        top:0;
+        left:78px;
+        width: calc(100% - 78px);
+        transition: all .5s ease;
+        z-index: 2;
+        }
+
+        .home-section h2{
+        display: inline-block;
+        color:#0067ac;
+        font-family: "Concert One", serif;
+        font-size: 56px;
+        font-weight: 50;
+        margin-bottom: 38px;
+        }
+
+        .sidebar.open ~ .home-section{
+        left:250px;
+        width: calc(100% - 250px);
+        }
+
+        .container {
+            width: 800px;
+            margin-left:550px;
+            position: absolute;
+            top: 80px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+
+        label {
+            display: block;
+            margin-right:430px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 97%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"]
+        {
+            width: 48%;
+            background-color: #9dc5dc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        input[type="button"] {
+            width: 48%;
+            background-color: #b7babb;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        input[type="submit"]:hover,
+        input[type="button"]:hover {
+            background-color: #6ca3dd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #9dc5dc;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+
+</head>
+<body>
+   {% include "UserAccount/admin_navbar.html" %}
+<section class="home-section">
+    <div class="container">
+        <h2>User Account Search</h2>
+        <form action="/search_account" method="GET" id="searchForm">
+            <label for="search">Search User Account:</label>
+            <input type="text" id="search" name="search" placeholder="Enter username">
+            <div class="form-group">
+                <input type="submit" value="Search">
+                <input type="button" value="Cancel" onclick="window.location.href = '/user_account_dashboard'">
+            </div>
+        </form>
+        <table id="searchResults">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</section>
+<script>
+    const form = document.querySelector('form');
+    const searchResultsContainer = document.getElementById('search-results');
+
+    form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const searchQuery = document.getElementById('search').value;
+    const response = await fetch(`/search_account?search=${searchQuery}`);
+    const data = await response.json();
+
+    if (data.error) {
+        alert(data.error);
+    } else {
+        const tableBody = document.getElementById('searchResults').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Clear previous data
+
+        data.accounts.forEach(account => {
+            const row = document.createElement('tr');
+
+            const fullName = account.firstName + ' ' + account.lastName;
+            const fullNameCell = document.createElement('td');
+            fullNameCell.textContent = fullName;
+            row.appendChild(fullNameCell);
+
+            const emailCell = document.createElement('td');
+            emailCell.textContent = account.email;
+            row.appendChild(emailCell);
+
+            const usernameCell = document.createElement('td');
+            usernameCell.textContent = account.userid;
+            row.appendChild(usernameCell);
+
+            const roleCell = document.createElement('td');
+            roleCell.textContent = account.role;
+            row.appendChild(roleCell);
+
+            const statusCell = document.createElement('td');
+            statusCell.textContent = account.status;
+            row.appendChild(statusCell);
+
+            tableBody.appendChild(row);
+        });
+    }
+});
+
+</script>
+</body>
+</html>

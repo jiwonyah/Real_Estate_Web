@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage User Account</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+        .home-section{
+        position: relative;
+        background-color: var(--color-body);
+        min-height: 100vh;
+        top:0;
+        left:78px;
+        width: calc(100% - 78px);
+        transition: all .5s ease;
+        z-index: 2;
+        }
+
+        .home-section h2{
+        display: inline-block;
+        align-items: center;
+        color:#0067ac;
+        font-family: "Concert One", serif;
+        font-size: 56px;
+        font-weight: 50;
+        margin: 38px;
+        }
+
+        h2 i {
+            color:rgba(0, 0, 0, 0.765);
+            margin-right: 10px;
+            font-size: 56px;
+        }
+
+        .sidebar.open ~ .home-section{
+        left:250px;
+        width: calc(100% - 250px);
+        }
+
+        .action-container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin-top: 20px;
+            margin-left: 170px;
+        }
+
+        .action-container .action {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+
+        .action-inner {
+            height: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .action-inner:hover {
+            background-color: #f0f0f0;
+        }
+
+        .action-container .action:last-child {
+            margin-right: 0;
+        }
+
+        .action-container .action .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .action-container .action .text {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!--sidebar implementation-->
+{% include "UserAccount/admin_navbar.html" %}
+
+    <!--CRUDS choices implementation-->
+    <section class="home-section">
+        <h2><i class="fas fa-arrow-left" style="cursor: pointer;" onclick="window.location.href = '/admin/'"></i> Manage User Account</h2>
+        <div class="content">
+            <div class="action-container" id="action-container">
+                <div class="action">
+                <div class="action-inner" onclick="window.location.href = '/create_user_account'">
+                    <div class="icon">
+                    <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="text">Create</div>
+                </div>
+                </div>
+                <div class="action">
+                    <div class="action-inner" onclick="window.location.href = '/view_user_account'">
+                        <div class="icon">
+                        <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="text">View</div>
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="action-inner" onclick="window.location.href = '/update_user_account'">
+                        <div class="icon">
+                        <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="text">Update</div>
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="action-inner" onclick="window.location.href = '/search_user_account'">
+                        <div class="icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="text">Search</div>
+                    </div>
+                </div>
+                <div class="action">
+                <div class="action-inner" onclick="window.location.href = '/suspend_user_account'">
+                    <div class="icon">
+                    <i class="fas fa-ban"></i>
+                    </div>
+                    <div class="text">Suspend</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const backButton = document.querySelector('.fa-arrow-left');
+                backButton.addEventListener('click', function() {
+                window.history.back();
+                });
+            });
+
+    </script>
+</body>
+</html>

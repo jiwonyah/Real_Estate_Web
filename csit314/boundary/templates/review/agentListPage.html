@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="agent-list-page">
+    <h1>Agent List</h1>
+    <table id="agentListTable">
+        <thead id="agentListHead">
+            <tr id="agentListRow">
+            </tr>
+        </thead>
+        <tbody id="agentList">
+
+        </tbody>
+    </table>
+
+    <script>
+        // function to fetch agent data from /agents directory
+        function fetchAgents() {
+            fetch('api/agents')
+                .then(response => response.json())
+                .then(data => {
+                    const agents = data.agents;
+                    const listElement = document.getElementById('agentList');
+                    listElement.innerHTML = ''; // empty existing list
+
+                    // create table row with agent data and a button to write a review
+                    agents.forEach(agent => {
+                        // Combine firstname and lastname into a single full name
+                        const fullName = `${agent.firstName} ${agent.lastName}`;
+
+                        const row = `<tr>
+                                        <td >
+                                            <span onclick="window.location.href = '/profile/${agent.userid}/'">
+                                            ${fullName}</span>
+                                        </td>
+                                        {% if g.user.role == "buyer" or g.user.role == "seller" %}
+                                        <td><a href="/write-review/${agent.id}" class="review-button">Write Review</a></td>
+                                        {% endif %}
+                                     </tr>`;
+                        listElement.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // bring agent data when page loads
+        window.onload = function() {
+            fetchAgents();
+        };
+    </script>
+
+</div>
+{% endblock %}

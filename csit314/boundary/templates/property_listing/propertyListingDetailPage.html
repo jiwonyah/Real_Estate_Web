@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+button {
+ background-color: #111827;
+ border: 1px solid transparent;
+ border-radius: .75rem;
+ box-sizing: border-box;
+ color: #FFFFFF;
+ cursor: pointer;
+ flex: 0 0 auto;
+ font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+ font-size: 1.125rem;
+ font-weight: 600;
+ line-height: 1.5rem;
+ padding: .75rem 1.2rem;
+ text-align: center;
+ text-decoration: none #6B7280 solid;
+ text-decoration-thickness: auto;
+ transition-duration: .2s;
+ transition-property: background-color,border-color,color,fill,stroke;
+ transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+ user-select: none;
+ -webkit-user-select: none;
+ touch-action: manipulation;
+ width: auto;
+}
+
+button:hover {
+ background-color: #374151;
+}
+
+button:focus {
+ box-shadow: none;
+ outline: 2px solid white;
+ outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+ button {
+  padding: .75rem 1.5rem;
+ }
+}
+</style>
+
+<div class="container my-3">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div style = "margin-top:20px; margin-left:20px;">
+        {% if g.user == propertyListing.agent %}
+        <button onclick="window.location.href = '/propertyListing/edit/{{propertyListing.id}}'">
+            Edit
+        </button>
+        <button class="delete" data-uri="/propertyListing/remove/{{propertyListing.id}}">
+            Remove
+        </button>
+        {% endif %}
+    </div>
+
+      {% if images %}
+        {% if images|length > 1 %}
+            <div style="margin-top: 20px;">
+                <div class="slider">
+                    <div class="slides">
+                        {% for file in images %}
+                            <img src="{{ url_for('static', filename='images/property_listings/' + file) }}" alt="Property Image">
+                        {% endfor %}
+                    </div>
+                    <div class="navigation">
+                        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+                        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+                    </div>
+                    <div class="dots">
+                        {% for idx in range(images|length) %}
+                            <span class="dot" onclick="currentSlide({{ idx }})"></span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <img src="{{ url_for('static', filename='images/property_listings/' + images[0]) }}" alt="Property Image" style="width:100%">
+        {% endif %}
+      {% else %}
+        <p style="text-align: center; color: #777; margin-top:70px;">
+            <img src="{{ url_for('static', filename='images/default.png') }}" alt="Default Image" style="width: 400px; height: auto;">
+        </p>
+      {% endif %}
+    <br><br>
+<div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; ,margin-bottom:100px;">
+        <h1 style="margin-left: 300px;">{{ propertyListing.subject }}</h1>
+        {% if propertyListing.is_sold == True %}
+        <h2 style="color: #e74c3c; margin-right:350px;">Sold</h2>
+        {% else %}
+        <h2 style="color: green; margin-right:350px;"><b>On Sale</b></h2>
+        {% endif %}
+    </div>
+    <br><br>
+    <div style="margin-left: 300px;">
+        <div>
+            <h3>About this property</h3>
+            {% if propertyListing.content %}
+            <div style="white-space: pre-line;">{{ propertyListing.content }}</div>
+            {% else %}
+            <div style="white-space: pre-line;"> No contents</div>
+            {% endif %}
+            <br>
+
+            <h3>Price</h3>
+            <div>{{ propertyListing.price }}</div>
+            <br>
+            <h3>Address</h3>
+            <div>{{ propertyListing.address }}</div>
+            <br>
+            <h3>Floor Size</h3>
+            <div>{{ propertyListing.floorSize }}</div>
+            <br>
+            <h3>Floor Level</h3>
+            <div>{{ propertyListing.floorLevel.value }}</div>
+            <br>
+            <h3>Property Type</h3>
+            <div>{{ propertyListing.propertyType.value }}</div>
+            <br>
+            <h3>Furnishing</h3>
+            <div>{{ propertyListing.furnishing.value }}</div>
+            <br>
+            <h3>Built Year</h3>
+            <div>{{ propertyListing.builtYear }}</div>
+            <br>
+            <h3>Agent</h3>
+            <div>{{ propertyListing.agent.firstName }} {{propertyListing.agent.lastName}}</div>
+            <br>
+
+            {% if g.user == propertyListing.agent or g.user.userid == propertyListing.client_id %}
+            <h3>Client</h3>
+            <p>{{ propertyListing.client_id }}</p>
+            {% endif %}
+            <br>
+
+            <h3>Date</h3>
+            <div>
+                {% if propertyListing.modify_date %}
+                <div>
+                    <div>Modified at</div>
+                    <div>{{ propertyListing.modify_date }}</div>
+                </div>
+                {% else %}
+                <div>
+                    {{ propertyListing.create_date }}
+                </div>
+                {% endif %}
+            </div>
+            <br>
+            {% if g.user.userid == propertyListing.client_id %}
+            <h3>View Counts</h3>
+            <div>{{ propertyListing.view_counts }}</div>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteButtons = document.querySelectorAll('.delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (confirm('Are you sure to remove the post?')) {
+                    const uri = button.getAttribute('data-uri');
+                    fetch(uri, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Property listing successfully removed.');
+                            window.location.href = '/propertyListing/';
+                        } else {
+                            throw new Error('Fail to remove the property.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Delete error:', error.message);
+                        alert('Fail to remove.');
+                    });
+                }
+            });
+        });
+    });
+
+
+    let slideIndex = 0;
+
+    function showSlides(index) {
+        const slides = document.querySelectorAll('.slides img');
+        const dots = document.querySelectorAll('.dot');
+
+        if (index >= slides.length) slideIndex = 0;
+        if (index < 0) slideIndex = slides.length - 1;
+
+        slides.forEach((slide, i) => {
+            slide.style.display = i === slideIndex ? 'block' : 'none';
+        });
+
+        dots.forEach((dot, i) => {
+            dot.className = i === slideIndex ? 'dot active' : 'dot';
+        });
+    }
+
+    function changeSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlides(slideIndex);
+    });
+
+</script>
+
+{% endblock %}
+
